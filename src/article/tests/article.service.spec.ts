@@ -6,7 +6,6 @@ import { Article } from '../schemas/article.schema';
 import { articleStub } from './stubs/article.stub';
 import { CreateArticleDto } from '../dto/create.article.dto';
 import { UpdateArticleDto } from '../dto/update.article.dto';
-import { ignoreElements } from 'rxjs';
 
 describe('ArticleService', () => {
   let service: ArticleService;

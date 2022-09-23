@@ -10,6 +10,7 @@ jest.mock('../article.service');
 
 describe('ArticleController', () => {
   let controller: ArticleController;
+  let service: ArticleService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -18,6 +19,7 @@ describe('ArticleController', () => {
     }).compile();
 
     controller = module.get<ArticleController>(ArticleController);
+    service = module.get<ArticleService>(ArticleService);
     jest.clearAllMocks();
   });
 
@@ -28,12 +30,15 @@ describe('ArticleController', () => {
   it('GET list of articles"', async () => {
     const tCase = await controller.getAll();
 
+    expect(service.findAll).toHaveBeenCalledTimes(1);
     expect(tCase).toEqual([articleStub()]);
   });
 
   it('GET single article"', async () => {
     const tCase = await controller.getOne(articleStub()._id);
 
+    expect(service.findOne).toHaveBeenCalledTimes(1);
+    expect(service.findOne).toHaveBeenCalledWith(articleStub()._id);
     expect(tCase).toEqual(articleStub());
   });
 
@@ -45,6 +50,8 @@ describe('ArticleController', () => {
     };
     const article: Article = await controller.create(ArticleDto);
 
+    expect(service.create).toHaveBeenCalledTimes(1);
+    expect(service.create).toHaveBeenCalledWith(ArticleDto);
     expect(article).toEqual(articleStub());
   });
 
@@ -59,12 +66,19 @@ describe('ArticleController', () => {
       articleStub()._id,
     );
 
+    expect(service.updateOne).toHaveBeenCalledTimes(1);
+    expect(service.updateOne).toHaveBeenCalledWith(
+      UpArticleDto,
+      articleStub()._id,
+    );
     expect(article).toEqual(articleStub());
   });
 
   it('Delete article"', async () => {
     const tCase = await controller.delete(articleStub()._id);
 
+    expect(service.deleteOne).toHaveBeenCalledTimes(1);
+    expect(service.deleteOne).toHaveBeenCalledWith(articleStub()._id);
     expect(tCase).toBeUndefined();
   });
 });

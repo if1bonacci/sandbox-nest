@@ -14,7 +14,7 @@ export class ArticleService {
     return this.articleModel.find().exec();
   }
   async findOne(id: string): Promise<Article> {
-    return this.articleModel.findById(id);
+    return this.articleModel.findOne({ _id: id }).exec();
   }
   async create(ArticleDto: CreateArticleDto): Promise<Article> {
     const createdArticle = new this.articleModel(ArticleDto);
